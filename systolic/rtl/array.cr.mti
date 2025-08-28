@@ -1,0 +1,26 @@
+C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv {2 {vlog -work work -vopt -sv -stats=none C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module systolic_pe
+-- Compiling module systolic_array
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(134): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(137): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(138): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(139): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(140): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(141): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(142): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(143): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(144): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+** Warning: C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv(145): (vlog-2583) [SVCHK] - Some checking for conflicts with always_comb and always_latch variables not yet supported. Run vopt to provide additional design-level checks.
+
+Top level modules:
+	systolic_array
+
+} {} {}} C:/muhammedAdelahmed_01125512206/rtl/systolic_array_tb.sv {1 {vlog -work work -vopt -sv -stats=none C:/muhammedAdelahmed_01125512206/rtl/systolic_array_tb.sv
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module tb_systolic_array
+
+Top level modules:
+	tb_systolic_array
+
+} {} {}}

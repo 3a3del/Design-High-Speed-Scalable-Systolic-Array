@@ -1,0 +1,79 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/questasim64_10.6c/examples
+vsystolic_array
+Z0 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+31
+!i10b 1
+!s100 Hn=GGam[oKFPQa3f2RGbJ2
+I;ZZ><J9KlQ_<HNiSW<gmQ3
+Z2 !s105 systolic_array_sv_unit
+S1
+Z3 dC:/muhammedAdelahmed_01125512206/rtl
+Z4 w1756357293
+Z5 8C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv
+Z6 FC:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv
+L0 31
+Z7 OL;L;10.6c;65
+Z8 !s108 1756357529.000000
+Z9 !s107 C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv|
+Z10 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/muhammedAdelahmed_01125512206/rtl/systolic_array.sv|
+!i113 0
+Z11 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z12 tCvgOpt 0
+vsystolic_pe
+R0
+R1
+r1
+!s85 0
+31
+!i10b 1
+!s100 iz5R`4F9YQc?GW^EbOlQ@2
+IjihZYjPaQ1>okmUXU76;e3
+R2
+S1
+R3
+R4
+R5
+R6
+L0 2
+R7
+R8
+R9
+R10
+!i113 0
+R11
+R12
+vtb_systolic_array
+R0
+R1
+r1
+!s85 0
+31
+!i10b 1
+!s100 gfJ?VN0HmzjK8IE9SD8go1
+IAX]@g9IK6:?MM7BTW2cG40
+!s105 systolic_array_tb_sv_unit
+S1
+R3
+w1756357568
+8C:/muhammedAdelahmed_01125512206/rtl/systolic_array_tb.sv
+FC:/muhammedAdelahmed_01125512206/rtl/systolic_array_tb.sv
+L0 2
+R7
+!s108 1756357577.000000
+!s107 C:/muhammedAdelahmed_01125512206/rtl/systolic_array_tb.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/muhammedAdelahmed_01125512206/rtl/systolic_array_tb.sv|
+!i113 0
+R11
+R12

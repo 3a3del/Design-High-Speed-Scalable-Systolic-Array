@@ -1,0 +1,201 @@
+// Systolic Processing Element (PE)
+// (unchanged from before)
+module systolic_pe #(
+    parameter int DATAWIDTH = 16
+)(
+    input  logic                         clk,
+    input  logic                         rst_n,
+    input  logic signed [DATAWIDTH-1:0]  a_left,
+    input  logic signed [DATAWIDTH-1:0]  b_top,
+    output logic signed [DATAWIDTH-1:0]  a_right,
+    output logic signed [DATAWIDTH-1:0]  b_bottom,
+    output logic signed [2*DATAWIDTH-1:0] final_result
+);
+    logic signed [2*DATAWIDTH-1:0] accumulator;
+    assign final_result = accumulator;
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            a_right     <= '0;
+            b_bottom    <= '0;
+            accumulator <= '0;
+        end else begin
+            a_right     <= a_left;
+            b_bottom    <= b_top;
+            accumulator <= accumulator + (a_left * b_top);
+        end
+    end
+endmodule
+
+
+// Complete systolic array module with generic input distribution logic
+module systolic_array #(
+    parameter integer DATAWIDTH = 16,
+    parameter integer N_SIZE    = 5
+)(
+    input  wire                           clk,
+    input  wire                           rst_n,
+    // Input: new row / column every cycle when valid_in=1
+    input  wire                           valid_in,
+    input  wire signed [N_SIZE*DATAWIDTH-1:0] matrix_a_in,
+    input  wire signed [N_SIZE*DATAWIDTH-1:0] matrix_b_in,
+
+    // Output: once the entire array has finished, valid_out pulses for 1 cycle
+    output logic                           valid_out,
+    output logic signed [N_SIZE*2*DATAWIDTH-1:0] matrix_c_out
+);
+
+    wire signed [DATAWIDTH-1:0] a_bus [0:N_SIZE][0:N_SIZE-1];
+    wire signed [DATAWIDTH-1:0] b_bus [0:N_SIZE-1][0:N_SIZE];
+    wire signed [2*DATAWIDTH-1:0] result_bus [0:N_SIZE-1][0:N_SIZE-1];
+
+    // Input registers for matrix A (horizontal flow)
+    reg signed [DATAWIDTH-1:0] a_input_regs [0:N_SIZE-1];
+    
+    // Input registers for matrix B (vertical flow)  
+    reg signed [DATAWIDTH-1:0] b_input_regs [0:N_SIZE-1];
+    
+    // Delay counter for input timing
+    reg [$clog2(2*N_SIZE):0] delay;
+    reg valid_d;
+    
+    // Helper variables for input distribution
+    integer shift_offset;
+    
+    // Helper wires for bit slicing
+    wire signed [DATAWIDTH-1:0] a_slice [0:N_SIZE-1];
+    wire signed [DATAWIDTH-1:0] b_slice [0:N_SIZE-1];
+    
+    // Generate constant bit slicing
+    genvar k;
+    generate
+        for (k = 0; k < N_SIZE; k = k + 1) begin : SLICE_GEN
+            assign a_slice[k] = matrix_a_in[(k+1)*DATAWIDTH-1:k*DATAWIDTH];
+            assign b_slice[k] = matrix_b_in[(k+1)*DATAWIDTH-1:k*DATAWIDTH];
+        end
+    endgenerate
+    
+    reg [$clog2(N_SIZE+2):0] c;
+
+    genvar i, j;
+    generate
+        for (i = 0; i < N_SIZE; i = i + 1) begin : INPUT_CONNECTIONS
+            // Matrix A input (left edge)
+            assign a_bus[i][0] = valid_in ? matrix_a_in[(i+1)*DATAWIDTH-1:i*DATAWIDTH] : '0;
+            // Matrix B input (top edge)
+            assign b_bus[0][i] = valid_in ? matrix_b_in[(i+1)*DATAWIDTH-1:i*DATAWIDTH] : '0;
+        end
+    endgenerate
+
+    // Generate systolic PE array
+    generate
+        for (i = 0; i < N_SIZE; i = i+1) begin : ROWS
+            for (j = 0; j < N_SIZE; j = j+1) begin : COLS
+                systolic_pe #(
+                    .DATAWIDTH(DATAWIDTH)
+                ) pe_inst (
+                    .clk         (clk),
+                    .rst_n       (rst_n),
+                    .a_left      (a_bus[i][j]),
+                    .b_top       (b_bus[i][j]),
+                    .a_right     (a_bus[i][j+1]),
+                    .b_bottom    (b_bus[i+1][j]),
+                    .final_result(result_bus[i][j])
+                );
+            end
+        end
+    endgenerate
+    
+    // Output result slicing wires
+    logic signed [2*DATAWIDTH-1:0] result_slice [0:N_SIZE*N_SIZE-1];
+    
+    generate
+        for (i = 0; i < N_SIZE; i = i + 1) begin : RESULT_SLICE_ROWS
+            for (j = 0; j < N_SIZE; j = j + 1) begin : RESULT_SLICE_COLS
+                assign result_slice[i*N_SIZE+j] = result_bus[i][j];
+            end
+        end
+    endgenerate
+
+    // Generic input distribution logic
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            for (integer i = 0; i < N_SIZE; i = i + 1) begin
+                a_input_regs[i] <= 0;
+                b_input_regs[i] <= 0;
+            end
+            valid_d <= 0;
+            delay <= 1;
+            c <= N_SIZE+1; 
+        end
+        else if (valid_in) begin
+            // Generic input distribution based on delay counter
+            for (integer i = 0; i < N_SIZE; i = i + 1) begin
+                a_input_regs[i] <= '0;
+                b_input_regs[i] <= '0;
+            end
+            
+            // Load inputs based on current delay - generic for any N_SIZE
+            if (delay <= N_SIZE) begin
+                // Phase 1: Loading diagonal elements (cycles 1 to N_SIZE)
+                for (integer i = 0; i < delay; i = i + 1) begin
+                    if (i < N_SIZE) begin
+                        a_input_regs[i] <= a_slice[i];
+                        b_input_regs[i] <= b_slice[i];
+                    end
+                end
+                valid_d <= 0;
+                c <= N_SIZE+1;
+            end
+            else if (delay <= 2*N_SIZE-1) begin
+                // Phase 2: Shifting pattern (cycles N_SIZE+1 to 2*N_SIZE-1)
+                shift_offset = delay - N_SIZE;
+                for (integer i = shift_offset; i < N_SIZE; i = i + 1) begin
+                    if ((i-shift_offset) < N_SIZE) begin
+                        a_input_regs[i] <= a_slice[i-shift_offset];
+                        b_input_regs[i] <= b_slice[i-shift_offset];
+                    end
+                end
+            end
+            
+            if (delay < 2*N_SIZE-1) begin
+                delay <= delay + 1;
+            end
+            else if (delay == 2*N_SIZE-1) begin
+                delay <= N_SIZE+1;
+            end
+        end
+        else if (delay == N_SIZE+1) begin
+            if (c > 1) begin
+                c <= c-1;
+                valid_d <= 1;
+            end
+            else begin
+                delay <= 1;
+                valid_d <= 0;
+                c <= N_SIZE+1;
+            end        
+        end
+           
+        if (!valid_in) begin
+            for (integer i = 0; i < N_SIZE; i = i + 1) begin
+                a_input_regs[i] <= 0;
+                b_input_regs[i] <= 0;
+            end     
+        end
+    end
+
+    assign valid_out = valid_d;
+
+    always_comb begin
+        if (valid_out) begin
+            for (integer s = 0; s < N_SIZE; s = s + 1) begin
+                matrix_c_out[s*2*DATAWIDTH +: 2*DATAWIDTH] = result_bus[N_SIZE-c][s];
+            end
+        end
+        else begin
+            matrix_c_out = '0;  // Default to zero
+        end
+    end
+
+endmodule

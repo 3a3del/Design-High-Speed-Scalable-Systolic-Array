@@ -1,0 +1,281 @@
+// Generic testbench for systolic array with parameterizable N_SIZE
+module tb_systolic_array #(
+    parameter integer DATAWIDTH = 16,
+    parameter integer N_SIZE = 4,
+    parameter integer CLK_PERIOD = 10
+)();
+
+    // Testbench signals
+    reg clk;
+    reg rst_n;
+    reg valid_in;
+    reg signed [N_SIZE*DATAWIDTH-1:0] matrix_a_in;
+    reg signed [N_SIZE*DATAWIDTH-1:0] matrix_b_in;
+    
+    wire valid_out;
+    wire signed [N_SIZE*2*DATAWIDTH-1:0] matrix_c_out;
+
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #(CLK_PERIOD/2) clk = ~clk;
+    end
+
+    // Instantiate the DUT (Device Under Test)
+    systolic_array #(
+        .DATAWIDTH(DATAWIDTH),
+        .N_SIZE(N_SIZE)
+    ) dut (
+        .clk(clk),
+        .rst_n(rst_n),
+        .valid_in(valid_in),
+        .matrix_a_in(matrix_a_in),
+        .matrix_b_in(matrix_b_in),
+        .valid_out(valid_out),
+        .matrix_c_out(matrix_c_out)
+    );
+
+    // Helper arrays for easier manipulation
+    reg signed [DATAWIDTH-1:0] matrix_a [0:N_SIZE-1][0:N_SIZE-1];
+    reg signed [DATAWIDTH-1:0] matrix_b [0:N_SIZE-1][0:N_SIZE-1];
+    reg signed [2*DATAWIDTH-1:0] expected_c [0:N_SIZE-1][0:N_SIZE-1];
+    logic signed [2*DATAWIDTH-1:0] actual_c [0:N_SIZE-1][0:N_SIZE-1];
+    
+    // Storage for collecting output rows
+    logic signed [N_SIZE*2*DATAWIDTH-1:0] collected_rows [0:N_SIZE-1];
+    integer row_count = 0;
+
+    // Task to unpack a single row from matrix_c_out
+    task automatic unpack_row_from_output (
+        input logic signed [N_SIZE*2*DATAWIDTH-1:0] row_data,
+        input integer row_idx
+    );
+        int j;
+        begin
+            for (j = 0; j < N_SIZE; j++) begin
+                // Extract each element from the row
+                actual_c[row_idx][j] = row_data[(j+1)*2*DATAWIDTH-1 -: 2*DATAWIDTH];
+            end
+        end
+    endtask
+
+    // Generic task to compute expected result
+    task automatic compute_expected;
+        input signed [DATAWIDTH-1:0] a [0:N_SIZE-1][0:N_SIZE-1];
+        input signed [DATAWIDTH-1:0] b [0:N_SIZE-1][0:N_SIZE-1];
+        output signed [2*DATAWIDTH-1:0] c [0:N_SIZE-1][0:N_SIZE-1];
+        integer i, j, k;
+        begin
+            for (i = 0; i < N_SIZE; i = i + 1) begin
+                for (j = 0; j < N_SIZE; j = j + 1) begin
+                    c[i][j] = 0;
+                    for (k = 0; k < N_SIZE; k = k + 1) begin
+                        c[i][j] = c[i][j] + (a[i][k] * b[k][j]);
+                    end
+                end
+            end
+        end
+    endtask
+
+    // Generic task to display matrix
+    task automatic display_matrix;
+        input string name;
+        input signed [2*DATAWIDTH-1:0] mat [0:N_SIZE-1][0:N_SIZE-1];
+        integer i, j;
+        begin
+            $display("%s:", name);
+            for (i = 0; i < N_SIZE; i = i + 1) begin
+                $write("  ");
+                for (j = 0; j < N_SIZE; j = j + 1) begin
+                    $write("%8d ", mat[i][j]);
+                end
+                $display("");
+            end
+        end
+    endtask
+
+    // Generic task to display integer matrix (for inputs)
+    task automatic display_input_matrix;
+        input string name;
+        input signed [DATAWIDTH-1:0] mat [0:N_SIZE-1][0:N_SIZE-1];
+        integer i, j;
+        begin
+            $display("%s:", name);
+            for (i = 0; i < N_SIZE; i = i + 1) begin
+                $write("  ");
+                for (j = 0; j < N_SIZE; j = j + 1) begin
+                    $write("%4d ", mat[i][j]);
+                end
+                $display("");
+            end
+        end
+    endtask
+
+    // Task to display raw hex output in matrix form
+    task automatic display_hex_matrix;
+        input string name;
+        begin
+            $display("%s (Raw Hex):", name);
+            for (integer i = 0; i < N_SIZE; i = i + 1) begin
+                $display("  Row %0d: %h", i, collected_rows[i]);
+            end
+        end
+    endtask
+
+    // Generic task to send matrices to systolic array
+    task automatic send_matrices (
+        input logic signed [DATAWIDTH-1:0] a [0:N_SIZE-1][0:N_SIZE-1],
+        input logic signed [DATAWIDTH-1:0] b [0:N_SIZE-1][0:N_SIZE-1]
+    );
+        // Drive 'valid_in' while sending
+        valid_in = 1;
+        // There are (2*N_SIZE-1) anti-diagonals for an N×N matrix
+        for (int k = 0; k < 2*N_SIZE-1; k++) begin
+            // Clear both input vectors each cycle
+            matrix_a_in = '0;
+            matrix_b_in = '0;
+
+            // Place each (i,j) on diagonal i+j == k
+            for (int i = 0; i < N_SIZE; i++) begin
+                int j = k - i;
+                if (j >= 0 && j < N_SIZE) begin
+                    // Lane 'i' of A gets a[i][j]
+                    matrix_a_in[(i+1)*DATAWIDTH-1 -: DATAWIDTH] = a[i][j];
+                    // Lane 'j' of B gets b[i][j]
+                    matrix_b_in[(j+1)*DATAWIDTH-1 -: DATAWIDTH] = b[i][j];
+                end
+            end
+
+            // Clock it in
+            @(posedge clk);
+        end
+
+        // Done sending
+        valid_in = 0;
+    endtask
+
+    // Generic task to initialize test matrices
+    task automatic init_test_matrices;
+        integer i, j;
+        begin
+            // Matrix A: Sequential values starting from 1
+            for (i = 0; i < N_SIZE; i = i + 1) begin
+                for (j = 0; j < N_SIZE; j = j + 1) begin
+                    matrix_a[i][j] = i * N_SIZE + j + 1;
+                end
+            end
+            
+            // Matrix B: Reverse sequential values
+            for (i = 0; i < N_SIZE; i = i + 1) begin
+                for (j = 0; j < N_SIZE; j = j + 1) begin
+                    matrix_b[i][j] = N_SIZE * N_SIZE - (i * N_SIZE + j);
+                end
+            end
+        end
+    endtask
+
+    // Task to verify results
+    task automatic verify_results;
+        integer i, j;
+        integer errors = 0;
+        begin
+            $display("\n--- Verification ---");
+            for (i = 0; i < N_SIZE; i = i + 1) begin
+                for (j = 0; j < N_SIZE; j = j + 1) begin
+                    if (actual_c[i][j] !== expected_c[i][j]) begin
+                        $display("ERROR: Mismatch at [%0d][%0d]: Expected %0d, Got %0d", 
+                                i, j, expected_c[i][j], actual_c[i][j]);
+                        errors = errors + 1;
+                    end
+                end
+            end
+            
+            if (errors == 0) begin
+                $display("SUCCESS: All results match expected values!");
+            end else begin
+                $display("FAILURE: %0d mismatches found", errors);
+            end
+        end
+    endtask
+
+    // Task to collect all output rows
+    task automatic collect_matrix_outputs;
+        begin
+            row_count = 0;
+            $display("\nCollecting matrix outputs...");
+            
+            // Wait for first valid_out and collect all N_SIZE rows
+            while (row_count < N_SIZE) begin
+                @(posedge clk);
+                if (valid_out) begin
+                    collected_rows[row_count] = matrix_c_out;
+                    $display("Row %0d collected: %h", row_count, matrix_c_out);
+                    unpack_row_from_output(matrix_c_out, row_count);
+                    row_count = row_count + 1;
+                end
+            end
+            
+            $display("All %0d rows collected successfully!", N_SIZE);
+        end
+    endtask
+
+    // Main test sequence
+    initial begin
+        // Initialize signals
+        rst_n = 0;
+        valid_in = 0;
+        matrix_a_in = 0;
+        matrix_b_in = 0;
+
+        // Reset sequence
+        repeat(3) @(posedge clk);
+        rst_n = 1;
+        repeat(2) @(posedge clk);
+
+        $display("=== Generic Systolic Array Testbench ===");
+        $display("N_SIZE = %0d, DATAWIDTH = %0d", N_SIZE, DATAWIDTH);
+        $display("Total cycles expected = %0d", 2*N_SIZE-1);
+        
+        // Test Case: Generic NxN multiplication
+        $display("\n--- Test Case: %0dx%0d Matrix Multiplication ---", N_SIZE, N_SIZE);
+        
+        // Initialize test matrices
+        init_test_matrices();
+        
+        // Compute expected result
+        compute_expected(matrix_a, matrix_b, expected_c);
+        
+        // Display input matrices
+        display_input_matrix("Matrix A", matrix_a);
+        display_input_matrix("Matrix B", matrix_b);
+        display_matrix("Expected Result (A * B)", expected_c);
+       
+        send_matrices(matrix_a, matrix_b);
+        
+        // Collect all matrix outputs
+        fork
+            begin
+                collect_matrix_outputs();
+            end
+            begin
+                repeat(200) @(posedge clk);
+                $display("ERROR: Timeout waiting for all outputs");
+                $finish;
+            end
+        join_any
+        disable fork;
+
+        // Display results
+        $display("\n=== Output Results ===");
+        display_hex_matrix("Collected Matrix Rows");
+        display_matrix("Actual Result Matrix", actual_c);
+        
+        // Verify results
+        verify_results();
+
+        repeat(5) @(posedge clk);
+        $display("\n=== Test completed ===");
+        $finish;
+    end
+
+endmodule

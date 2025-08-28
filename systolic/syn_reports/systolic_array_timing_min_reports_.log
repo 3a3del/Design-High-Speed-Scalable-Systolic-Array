@@ -1,0 +1,127 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : systolic_array
+Version: O-2018.06-SP1
+Date   : Thu Aug 28 14:01:21 2025
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: tt0p8v25c   Library: saed14lvt_base_tt0p8v25c
+Wire Load Model Mode: top
+
+  Startpoint: matrix_b_in[56]
+              (input port clocked by clk)
+  Endpoint: ROWS_0__COLS_3__pe_inst/b_bottom_reg[8]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: INREG
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  systolic_array     35000                 saed14lvt_base_tt0p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.05       0.05 f
+  matrix_b_in[56] (in)                                    0.00       0.05 f
+  U557/X (SAEDLVT14_AN2_MM_12)                            0.01       0.06 f
+  ROWS_0__COLS_3__pe_inst/b_top[8] (systolic_pe_DATAWIDTH16_22)
+                                                          0.00       0.06 f
+  ROWS_0__COLS_3__pe_inst/b_bottom_reg[8]/D (SAEDLVT14_FDPRBQ_V2_1)
+                                                          0.00       0.06 f
+  data arrival time                                                  0.06
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.03       0.03
+  ROWS_0__COLS_3__pe_inst/b_bottom_reg[8]/CK (SAEDLVT14_FDPRBQ_V2_1)
+                                                          0.00       0.03 r
+  library hold time                                       0.02       0.05
+  data required time                                                 0.05
+  --------------------------------------------------------------------------
+  data required time                                                 0.05
+  data arrival time                                                 -0.06
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.02
+
+
+  Startpoint: ROWS_2__COLS_3__pe_inst/b_bottom_reg[7]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ROWS_3__COLS_3__pe_inst/b_bottom_reg[7]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REG2REG
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  systolic_array     35000                 saed14lvt_base_tt0p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  ROWS_2__COLS_3__pe_inst/b_bottom_reg[7]/CK (SAEDLVT14_FDPRBQ_V2_4)
+                                                          0.00 #     0.00 r
+  ROWS_2__COLS_3__pe_inst/b_bottom_reg[7]/Q (SAEDLVT14_FDPRBQ_V2_4)
+                                                          0.05       0.05 f
+  ROWS_2__COLS_3__pe_inst/b_bottom[7] (systolic_pe_DATAWIDTH16_12)
+                                                          0.00       0.05 f
+  ROWS_3__COLS_3__pe_inst/b_top[7] (systolic_pe_DATAWIDTH16_7)
+                                                          0.00       0.05 f
+  ROWS_3__COLS_3__pe_inst/b_bottom_reg[7]/D (SAEDLVT14_FDPRBQ_V2_4)
+                                                          0.00       0.05 f
+  data arrival time                                                  0.05
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.03       0.03
+  ROWS_3__COLS_3__pe_inst/b_bottom_reg[7]/CK (SAEDLVT14_FDPRBQ_V2_4)
+                                                          0.00       0.03 r
+  library hold time                                       0.01       0.04
+  data required time                                                 0.04
+  --------------------------------------------------------------------------
+  data required time                                                 0.04
+  data arrival time                                                 -0.05
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: valid_d_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: valid_out (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  systolic_array     35000                 saed14lvt_base_tt0p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  valid_d_reg/CK (SAEDLVT14_FDPRB_V3_2)                   0.00 #     0.00 r
+  valid_d_reg/Q (SAEDLVT14_FDPRB_V3_2)                    0.07       0.07 f
+  valid_out (out)                                         0.00       0.07 f
+  data arrival time                                                  0.07
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.03       0.03
+  output external delay                                  -0.05      -0.02
+  data required time                                                -0.02
+  --------------------------------------------------------------------------
+  data required time                                                -0.02
+  data arrival time                                                 -0.07
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.09
+
+
+1

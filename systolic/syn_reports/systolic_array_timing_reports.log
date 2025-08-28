@@ -1,0 +1,341 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : systolic_array
+Version: O-2018.06-SP1
+Date   : Thu Aug 28 14:01:21 2025
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: tt0p8v25c   Library: saed14lvt_base_tt0p8v25c
+Wire Load Model Mode: top
+
+  Startpoint: valid_in (input port clocked by clk)
+  Endpoint: ROWS_0__COLS_1__pe_inst/accumulator_reg[31]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: INREG
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  systolic_array     35000                 saed14lvt_base_tt0p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.05       0.05 f
+  valid_in (in)                                           0.01       0.06 f
+  U606/X (SAEDLVT14_INV_ECO_2)                            0.01       0.07 r
+  U605/X (SAEDLVT14_BUF_20)                               0.02       0.09 r
+  U627/X (SAEDLVT14_INV_12)                               0.01       0.10 f
+  U601/X (SAEDLVT14_AN2_MM_20)                            0.02       0.12 f
+  ROWS_0__COLS_1__pe_inst/b_top[14] (systolic_pe_DATAWIDTH16_24)
+                                                          0.00       0.12 f
+  ROWS_0__COLS_1__pe_inst/mult_24/B[14] (systolic_pe_DATAWIDTH16_24_DW02_mult_0)
+                                                          0.00       0.12 f
+  ROWS_0__COLS_1__pe_inst/mult_24/U167/X (SAEDLVT14_INV_S_20)
+                                                          0.01       0.13 r
+  ROWS_0__COLS_1__pe_inst/mult_24/U744/X (SAEDLVT14_OR2_MM_8)
+                                                          0.01       0.14 r
+  ROWS_0__COLS_1__pe_inst/mult_24/U469/X (SAEDLVT14_INV_1)
+                                                          0.01       0.15 f
+  ROWS_0__COLS_1__pe_inst/mult_24/U899/X (SAEDLVT14_EN2_4)
+                                                          0.02       0.18 r
+  ROWS_0__COLS_1__pe_inst/mult_24/U468/X (SAEDLVT14_EN2_3)
+                                                          0.03       0.20 f
+  ROWS_0__COLS_1__pe_inst/mult_24/U351/X (SAEDLVT14_INV_S_3)
+                                                          0.01       0.22 r
+  ROWS_0__COLS_1__pe_inst/mult_24/U607/X (SAEDLVT14_NR2_MM_4)
+                                                          0.01       0.22 f
+  ROWS_0__COLS_1__pe_inst/mult_24/U605/X (SAEDLVT14_OR2_4)
+                                                          0.01       0.24 f
+  ROWS_0__COLS_1__pe_inst/mult_24/U461/X (SAEDLVT14_AN2_8)
+                                                          0.01       0.25 f
+  ROWS_0__COLS_1__pe_inst/mult_24/U877/X (SAEDLVT14_EN3_3)
+                                                          0.03       0.28 r
+  ROWS_0__COLS_1__pe_inst/mult_24/U382/X (SAEDLVT14_INV_S_10)
+                                                          0.01       0.29 f
+  ROWS_0__COLS_1__pe_inst/mult_24/U879/X (SAEDLVT14_EN3_3)
+                                                          0.04       0.33 r
+  ROWS_0__COLS_1__pe_inst/mult_24/U384/X (SAEDLVT14_INV_S_5)
+                                                          0.01       0.34 f
+  ROWS_0__COLS_1__pe_inst/mult_24/U481/X (SAEDLVT14_NR2_MM_4)
+                                                          0.01       0.35 r
+  ROWS_0__COLS_1__pe_inst/mult_24/U56/X (SAEDLVT14_OA21_4)
+                                                          0.02       0.36 r
+  ROWS_0__COLS_1__pe_inst/mult_24/S2_7_11/CO (SAEDLVT14_ADDF_V1_2)
+                                                          0.02       0.39 r
+  ROWS_0__COLS_1__pe_inst/mult_24/S2_8_11/CO (SAEDLVT14_ADDF_V1_2)
+                                                          0.03       0.41 r
+  ROWS_0__COLS_1__pe_inst/mult_24/S2_9_11/CO (SAEDLVT14_ADDF_V1_2)
+                                                          0.03       0.44 r
+  ROWS_0__COLS_1__pe_inst/mult_24/S2_10_11/S (SAEDLVT14_ADDF_V2_2)
+                                                          0.04       0.48 f
+  ROWS_0__COLS_1__pe_inst/mult_24/S2_11_10/S (SAEDLVT14_ADDF_V1_2)
+                                                          0.04       0.52 r
+  ROWS_0__COLS_1__pe_inst/mult_24/S2_12_9/S (SAEDLVT14_ADDF_V1_2)
+                                                          0.04       0.57 f
+  ROWS_0__COLS_1__pe_inst/mult_24/S2_13_8/CO (SAEDLVT14_ADDF_V1_1)
+                                                          0.03       0.60 f
+  ROWS_0__COLS_1__pe_inst/mult_24/S2_14_8/S (SAEDLVT14_ADDF_V1_1)
+                                                          0.04       0.64 r
+  ROWS_0__COLS_1__pe_inst/mult_24/S4_7/S (SAEDLVT14_ADDF_V1_1)
+                                                          0.05       0.68 f
+  ROWS_0__COLS_1__pe_inst/mult_24/S14_22/S (SAEDLVT14_ADDF_V2_2)
+                                                          0.03       0.71 r
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/A[20] (systolic_pe_DATAWIDTH16_24_DW01_add_2)
+                                                          0.00       0.71 r
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U40/X (SAEDLVT14_BUF_8)
+                                                          0.01       0.72 r
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U42/X (SAEDLVT14_OR2_MM_12)
+                                                          0.01       0.74 r
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U41/X (SAEDLVT14_INV_12)
+                                                          0.01       0.74 f
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U110/X (SAEDLVT14_ND3B_4)
+                                                          0.02       0.76 f
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U39/X (SAEDLVT14_NR2_MM_4)
+                                                          0.01       0.77 r
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U99/X (SAEDLVT14_AO21_4)
+                                                          0.02       0.78 r
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U56/X (SAEDLVT14_OR2_MM_12)
+                                                          0.01       0.80 r
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U70/X (SAEDLVT14_INV_S_10)
+                                                          0.01       0.81 f
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U111/X (SAEDLVT14_OAI21_V1_8)
+                                                          0.01       0.82 r
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/U15/X (SAEDLVT14_EN2_4)
+                                                          0.02       0.84 f
+  ROWS_0__COLS_1__pe_inst/mult_24/FS_1/SUM[24] (systolic_pe_DATAWIDTH16_24_DW01_add_2)
+                                                          0.00       0.84 f
+  ROWS_0__COLS_1__pe_inst/mult_24/PRODUCT[26] (systolic_pe_DATAWIDTH16_24_DW02_mult_0)
+                                                          0.00       0.84 f
+  ROWS_0__COLS_1__pe_inst/add_24/B[26] (systolic_pe_DATAWIDTH16_24_DW01_add_4)
+                                                          0.00       0.84 f
+  ROWS_0__COLS_1__pe_inst/add_24/U15/X (SAEDLVT14_BUF_20)
+                                                          0.01       0.85 f
+  ROWS_0__COLS_1__pe_inst/add_24/U89/X (SAEDLVT14_NR2_MM_4)
+                                                          0.01       0.86 r
+  ROWS_0__COLS_1__pe_inst/add_24/U88/X (SAEDLVT14_NR2_MM_3)
+                                                          0.02       0.88 f
+  ROWS_0__COLS_1__pe_inst/add_24/U79/X (SAEDLVT14_NR2_MM_4)
+                                                          0.02       0.89 r
+  ROWS_0__COLS_1__pe_inst/add_24/U142/X (SAEDLVT14_ND2_MM_16)
+                                                          0.01       0.90 f
+  ROWS_0__COLS_1__pe_inst/add_24/U141/X (SAEDLVT14_OA211_4)
+                                                          0.02       0.92 f
+  ROWS_0__COLS_1__pe_inst/add_24/U45/X (SAEDLVT14_NR2_MM_12)
+                                                          0.01       0.93 r
+  ROWS_0__COLS_1__pe_inst/add_24/U44/X (SAEDLVT14_INV_12)
+                                                          0.01       0.93 f
+  ROWS_0__COLS_1__pe_inst/add_24/U140/X (SAEDLVT14_ND2_MM_16)
+                                                          0.00       0.94 r
+  ROWS_0__COLS_1__pe_inst/add_24/U121/X (SAEDLVT14_ND2_MM_16)
+                                                          0.01       0.94 f
+  ROWS_0__COLS_1__pe_inst/add_24/U7/X (SAEDLVT14_INV_S_10)
+                                                          0.00       0.95 r
+  ROWS_0__COLS_1__pe_inst/add_24/U67/X (SAEDLVT14_OAI21_V1_8)
+                                                          0.01       0.95 f
+  ROWS_0__COLS_1__pe_inst/add_24/U150/X (SAEDLVT14_EN2_4)
+                                                          0.02       0.97 r
+  ROWS_0__COLS_1__pe_inst/add_24/SUM[31] (systolic_pe_DATAWIDTH16_24_DW01_add_4)
+                                                          0.00       0.97 r
+  ROWS_0__COLS_1__pe_inst/accumulator_reg[31]/D (SAEDLVT14_FDPRB_V3_2)
+                                                          0.00       0.97 r
+  data arrival time                                                  0.97
+
+  clock clk (rise edge)                                   1.00       1.00
+  clock network delay (ideal)                             0.00       1.00
+  clock uncertainty                                      -0.03       0.97
+  ROWS_0__COLS_1__pe_inst/accumulator_reg[31]/CK (SAEDLVT14_FDPRB_V3_2)
+                                                          0.00       0.97 r
+  library setup time                                      0.00       0.97
+  data required time                                                 0.97
+  --------------------------------------------------------------------------
+  data required time                                                 0.97
+  data arrival time                                                 -0.97
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: ROWS_0__COLS_0__pe_inst/b_bottom_reg[12]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: ROWS_1__COLS_0__pe_inst/accumulator_reg[30]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: REG2REG
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  systolic_array     35000                 saed14lvt_base_tt0p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  ROWS_0__COLS_0__pe_inst/b_bottom_reg[12]/CK (SAEDLVT14_FDPRBQ_V2_1)
+                                                          0.00 #     0.00 r
+  ROWS_0__COLS_0__pe_inst/b_bottom_reg[12]/Q (SAEDLVT14_FDPRBQ_V2_1)
+                                                          0.05       0.05 f
+  ROWS_0__COLS_0__pe_inst/b_bottom[12] (systolic_pe_DATAWIDTH16_0)
+                                                          0.00       0.05 f
+  ROWS_1__COLS_0__pe_inst/b_top[12] (systolic_pe_DATAWIDTH16_20)
+                                                          0.00       0.05 f
+  ROWS_1__COLS_0__pe_inst/mult_24/B[12] (systolic_pe_DATAWIDTH16_20_DW02_mult_0)
+                                                          0.00       0.05 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U507/X (SAEDLVT14_BUF_S_1)
+                                                          0.03       0.08 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U8/X (SAEDLVT14_BUF_12)
+                                                          0.02       0.10 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U644/X (SAEDLVT14_INV_1)
+                                                          0.05       0.16 r
+  ROWS_1__COLS_0__pe_inst/mult_24/U337/X (SAEDLVT14_OR2_MM_4)
+                                                          0.04       0.20 r
+  ROWS_1__COLS_0__pe_inst/mult_24/U405/X (SAEDLVT14_INV_1)
+                                                          0.02       0.21 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U802/X (SAEDLVT14_EN3_3)
+                                                          0.03       0.25 r
+  ROWS_1__COLS_0__pe_inst/mult_24/U404/X (SAEDLVT14_BUF_10)
+                                                          0.02       0.26 r
+  ROWS_1__COLS_0__pe_inst/mult_24/U161/X (SAEDLVT14_EO3_4)
+                                                          0.03       0.30 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U918/X (SAEDLVT14_OAI21_V1_8)
+                                                          0.01       0.31 r
+  ROWS_1__COLS_0__pe_inst/mult_24/U919/X (SAEDLVT14_OAI21_V1_8)
+                                                          0.01       0.32 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U836/X (SAEDLVT14_EN3_3)
+                                                          0.04       0.36 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U838/X (SAEDLVT14_EN3_3)
+                                                          0.03       0.39 r
+  ROWS_1__COLS_0__pe_inst/mult_24/U24/X (SAEDLVT14_OAI21_3)
+                                                          0.02       0.41 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U582/X (SAEDLVT14_AN2_MM_12)
+                                                          0.02       0.43 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U694/X (SAEDLVT14_EN3_3)
+                                                          0.03       0.46 r
+  ROWS_1__COLS_0__pe_inst/mult_24/U440/X (SAEDLVT14_BUF_16)
+                                                          0.01       0.47 r
+  ROWS_1__COLS_0__pe_inst/mult_24/U127/X (SAEDLVT14_ND2_8)
+                                                          0.01       0.48 f
+  ROWS_1__COLS_0__pe_inst/mult_24/U83/X (SAEDLVT14_AOI21_8)
+                                                          0.01       0.49 r
+  ROWS_1__COLS_0__pe_inst/mult_24/S2_11_7/S (SAEDLVT14_ADDF_V2_2)
+                                                          0.04       0.53 f
+  ROWS_1__COLS_0__pe_inst/mult_24/S2_12_6/S (SAEDLVT14_ADDF_V1_2)
+                                                          0.04       0.57 r
+  ROWS_1__COLS_0__pe_inst/mult_24/S2_13_5/CO (SAEDLVT14_ADDF_V2_2)
+                                                          0.02       0.59 r
+  ROWS_1__COLS_0__pe_inst/mult_24/S2_14_5/CO (SAEDLVT14_ADDF_V2_2)
+                                                          0.03       0.62 r
+  ROWS_1__COLS_0__pe_inst/mult_24/S4_5/CO (SAEDLVT14_ADDF_V2_2)
+                                                          0.03       0.65 r
+  ROWS_1__COLS_0__pe_inst/mult_24/S14_21/S (SAEDLVT14_ADDF_V2_2)
+                                                          0.04       0.69 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/A[19] (systolic_pe_DATAWIDTH16_20_DW01_add_2)
+                                                          0.00       0.69 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U10/X (SAEDLVT14_BUF_12)
+                                                          0.01       0.70 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U105/X (SAEDLVT14_OR2_MM_20)
+                                                          0.01       0.72 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U14/X (SAEDLVT14_ND3_4)
+                                                          0.01       0.73 r
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U109/X (SAEDLVT14_AN2_MM_12)
+                                                          0.01       0.74 r
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U23/X (SAEDLVT14_OAI21_V1_8)
+                                                          0.01       0.75 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U112/X (SAEDLVT14_AO21_4)
+                                                          0.02       0.77 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U60/X (SAEDLVT14_OR2_MM_20)
+                                                          0.02       0.78 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U55/X (SAEDLVT14_INV_S_20)
+                                                          0.00       0.79 r
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U91/X (SAEDLVT14_OAI21_V1_8)
+                                                          0.02       0.80 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U86/X (SAEDLVT14_INV_S_10)
+                                                          0.01       0.81 r
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U117/X (SAEDLVT14_OA211_4)
+                                                          0.02       0.83 r
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U126/X (SAEDLVT14_OA21_4)
+                                                          0.02       0.85 r
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U116/X (SAEDLVT14_OAI21_V1_8)
+                                                          0.01       0.86 f
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/U121/X (SAEDLVT14_EO3_4)
+                                                          0.05       0.91 r
+  ROWS_1__COLS_0__pe_inst/mult_24/FS_1/SUM[28] (systolic_pe_DATAWIDTH16_20_DW01_add_2)
+                                                          0.00       0.91 r
+  ROWS_1__COLS_0__pe_inst/mult_24/PRODUCT[30] (systolic_pe_DATAWIDTH16_20_DW02_mult_0)
+                                                          0.00       0.91 r
+  ROWS_1__COLS_0__pe_inst/add_24/B[30] (systolic_pe_DATAWIDTH16_20_DW01_add_4)
+                                                          0.00       0.91 r
+  ROWS_1__COLS_0__pe_inst/add_24/U126/X (SAEDLVT14_BUF_16)
+                                                          0.01       0.92 r
+  ROWS_1__COLS_0__pe_inst/add_24/U92/X (SAEDLVT14_EO2_2)
+                                                          0.02       0.94 f
+  ROWS_1__COLS_0__pe_inst/add_24/U137/X (SAEDLVT14_EO2_4)
+                                                          0.02       0.96 r
+  ROWS_1__COLS_0__pe_inst/add_24/SUM[30] (systolic_pe_DATAWIDTH16_20_DW01_add_4)
+                                                          0.00       0.96 r
+  ROWS_1__COLS_0__pe_inst/accumulator_reg[30]/D (SAEDLVT14_FDPRBQ_V2_1)
+                                                          0.00       0.96 r
+  data arrival time                                                  0.96
+
+  clock clk (rise edge)                                   1.00       1.00
+  clock network delay (ideal)                             0.00       1.00
+  clock uncertainty                                      -0.03       0.97
+  ROWS_1__COLS_0__pe_inst/accumulator_reg[30]/CK (SAEDLVT14_FDPRBQ_V2_1)
+                                                          0.00       0.97 r
+  library setup time                                     -0.01       0.96
+  data required time                                                 0.96
+  --------------------------------------------------------------------------
+  data required time                                                 0.96
+  data arrival time                                                 -0.96
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+  Startpoint: valid_d_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_c_out[71]
+            (output port clocked by clk)
+  Path Group: REGOUT
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  systolic_array     35000                 saed14lvt_base_tt0p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  valid_d_reg/CK (SAEDLVT14_FDPRB_V3_2)                   0.00 #     0.00 r
+  valid_d_reg/Q (SAEDLVT14_FDPRB_V3_2)                    0.07       0.07 r
+  U533/X (SAEDLVT14_INV_6)                                0.02       0.09 f
+  U838/X (SAEDLVT14_NR4_0P75)                             0.06       0.15 r
+  U989/X (SAEDLVT14_BUF_S_1)                              0.09       0.24 r
+  U988/X (SAEDLVT14_BUF_S_1)                              0.08       0.32 r
+  U969/X (SAEDLVT14_BUF_S_1)                              0.08       0.40 r
+  U946/X (SAEDLVT14_BUF_S_1)                              0.10       0.50 r
+  U877/X (SAEDLVT14_BUF_S_1)                              0.14       0.63 r
+  U1155/X (SAEDLVT14_AO222_1)                             0.05       0.69 r
+  U755/X (SAEDLVT14_AO221_0P5)                            0.06       0.75 r
+  matrix_c_out[71] (out)                                  0.00       0.75 r
+  data arrival time                                                  0.75
+
+  clock clk (rise edge)                                   1.00       1.00
+  clock network delay (ideal)                             0.00       1.00
+  clock uncertainty                                      -0.03       0.97
+  output external delay                                  -0.05       0.92
+  data required time                                                 0.92
+  --------------------------------------------------------------------------
+  data required time                                                 0.92
+  data arrival time                                                 -0.75
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.17
+
+
+1
